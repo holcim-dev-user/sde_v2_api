@@ -107,6 +107,10 @@ app.get(process.env.iisVirtualPath+'status', function (req, res) {
     res.send(JSON.stringify(respuesta));
     //res.send(JSON.stringify(connectionPool));
 });
+app.get(process.env.iisVirtualPath+'getIPaddress', function (req, res) {
+    var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress || null;
+    res.status(200).send(ip);
+})
 //#endregion Public_Functions_&_Variables
 
 
