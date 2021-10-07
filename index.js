@@ -2308,6 +2308,36 @@ app.post(process.env.iisVirtualPath+'spChoferesUpdate', veryfyToken, function(re
 })
 //#endregion CHOFER
 
+////#region EQUIPMENT
+app.get(process.env.iisVirtualPath+'spEquipmentGetUI', veryfyToken, function(req, res) {
+    let start = new Date()
+    jwt.verify(req.token, process.env.secretEncryptionJWT, (jwtError, authData) => {
+        if(jwtError){
+            logToFile("JWT Error:")
+            logToFile(jwtError)
+            res.status(403).send(jwtError);
+        }else{
+            new sql.Request(connectionPool)
+            .input('userCompany', sql.Int, req.query.userCompany )
+            .input('ipAddress', sql.VarChar(50), req.query.ipAddress )
+            .execute('spEquipmentGetUI', (err, result) => {
+                logToFile("Request:  " + req.originalUrl)
+                logToFile("Perf spEquipmentGetUI:  " + ((new Date() - start) / 1000) + ' secs' )
+                if(err){
+                    logToFile("DB Error:  " + err.procName)
+                    logToFile("Error:  " + JSON.stringify(err.originalError.info))
+                    res.status(400).send(err.originalError);
+                    return;
+                }
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(result.recordset);
+            })
+        }
+    })
+})
+//#endregion EQUIPMENT
+
+
 
 //#region PARTNERS
 app.get(process.env.iisVirtualPath+'spPartnerMasterSelectEdit', veryfyToken, function(req, res) {
