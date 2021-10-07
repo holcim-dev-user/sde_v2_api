@@ -7,6 +7,8 @@ var jwt = require("jsonwebtoken");                      //yarn add jsonwebtoken 
 var request = require('request');                       //yarn add request --save
 var httpntlm = require('httpntlm');                 //yarn add httpntlm
 var axios = require('axios');                         //yarn add axios --save
+//const RequestIp = require('@supercharge/request-ip')    //yarn add @supercharge/request-ip  
+var requestIp = require('request-ip');                  //yarn add request-ip
 var soapRequest = require('easy-soap-request'); //yarn add easy-soap-request
 //var curl = require('curl');                           //yarn add curl --save
 //var superagent = require('superagent');               //yarn add superagent --save
@@ -107,6 +109,13 @@ app.get(process.env.iisVirtualPath+'status', function (req, res) {
     res.send(JSON.stringify(respuesta));
     //res.send(JSON.stringify(connectionPool));
 });
+app.get(process.env.iisVirtualPath+'getIPaddress', function (req, res) {    
+    /*var idAddressB = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    logToFile('idAddressB');
+    logToFile(idAddressB);*/
+    var idAddress = requestIp.getClientIp(req);
+    res.status(200).send(idAddress);
+})
 //#endregion Public_Functions_&_Variables
 
 
