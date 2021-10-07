@@ -32,6 +32,7 @@ logToFile('Express Version: ' + require('express/package').version)
 logToFile('Node Version: ' + process.version)
 logToFile('Process ID: ' + process.pid)
 logToFile('Running Path: ' + process.cwd())
+logToFile('New Comment')
 
 //#region Public_Functions_&_Variables
 app.use(compression())  //Enable Compression
